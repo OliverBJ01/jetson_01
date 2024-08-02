@@ -9,7 +9,7 @@
 
 # monitor for UDP with
 #    tcpdump -i eth0 -n udp port 5000
-# receive UDP on other PC with:
+# receive UDP on other PC with :
 #    gst-launch-1.0 udpsrc port=5000 ! application/x-rtp ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! Autovideosink
 
 # ISSUE: HIGH LATENCY AT OTHER PC
