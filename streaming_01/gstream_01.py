@@ -40,10 +40,11 @@ def main(args):
     Gst.init(args)
 
     pipeline = Gst.parse_launch(
-        "v4l2src device=/dev/video0 ! video/x-raw, width={width}, height={height}, framerate={framerate}/1 ! "
+        "v4l2src device=/dev/video0 ! video/x-raw, width=640, height=480, framerate=30/1 ! "
         "videoconvert ! video/x-raw, format=(string)I420 ! nvvidconv ! video/x-raw(memory:NVMM), format=(string)NV12 ! "
         "nvv4l2h264enc ! rtph264pay mtu={mtu} ! "
         "udpsink host=10.1.1.48 port=5000".format(width=320, height=240, framerate=15, mtu=1200)
+        # "udpsink host=127.0.0.1 port=5000".format(width=320, height=240, framerate=15, mtu=1200)
         )
 
     # pipeline = Gst.parse_launch(

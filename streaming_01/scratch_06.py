@@ -84,11 +84,24 @@ def on_new_sample(appsink):
 
 # create the pipelines
 
-pipeline_in = Gst.parse_launch(
-   'v4l2src device=/dev/video0 ! '
-   'video/x-raw,format=YUY2,width=640,height=480,framerate=30/1 ! '
-   'queue ! nvvideoconvert ! '
-   'appsink name=my_sink')
+# pipeline_in = Gst.parse_launch(
+#    'v4l2src device=/dev/video0 ! '
+#    'video/x-raw,format=YUY2,width=640,height=480,framerate=30/1 ! '
+#    'queue ! nvvideoconvert ! '
+#    'appsink name=my_sink')
+
+
+# receive RSTP stream from IP cam
+pipeline = Gst.parse_launch(
+    "rtspsrc location=rtsp://admin:roxywashere@10.1.1.80:554/h264Preview_01_sub ! rtpjitterbuffer ! "
+    "application/x-rtp, media=video, encoding-name=H264 ! queue ! "
+    "rtph264depay ! h264parse !   nvv4l2decoder ! nvvidconv !"
+    "videoscale ! video/x-raw(memory:NVMM),width=640,height=480 !"
+    'appsink name=my_sink')
+    # "nv3dsink sync=false")
+
+
+
 
 pipeline_out_vid = Gst.parse_launch(
     'appsrc name=src_vid  is-live=true   caps=video/x-raw,format=YUY2,width=640,height=480,framerate=30/1 ! '

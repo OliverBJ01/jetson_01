@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-LOOKS SO WRONG; gst_str_rgba HAS VIDEO/X-RAW WHEN IS READING A FILE
+# LOOKS SO WRONG; gst_str_rgba HAS VIDEO/X-RAW WHEN IS READING A FILE
 
 # cv2 writes 100 images  cv2.VideoWriter(gst_str_rgba..)  DOES NOT WORK
 # CV2 HAS GSTREAMER IN CONTAINER - DOES NOT WORK
@@ -16,8 +16,8 @@ os.environ["GST_DEBUG"] = "2"
 # print(cv2.getBuildInformation())
 
 # image_url =  '/Projects/zidane.jpg'
-# image_url =  '/home/bernard/Projects/zidane.jpg'
-image_url =  '/Projects/zidane.jpg'
+image_url =  '/home/bernard/Projects/zidane.jpg'
+
 
 img = cv2.imread(image_url)
 if img is None:
@@ -25,8 +25,14 @@ if img is None:
     exit(1)
 
 # define RTP
-gst_str_rgba = 'appsrc ! videoconvert ! video/x-raw, format=(string)I420 ! nvv4l2h264enc  ! ' \
-               'rtph264pay mtu=1400 ! udpsink host=10.1.1.48 port=5000'
+# gst_str_rgba = 'appsrc ! videoconvert ! video/x-raw, format=(string)I420 ! nvv4l2h264enc  ! ' \
+#                'rtph264pay mtu=1400 ! udpsink host=10.1.1.48 port=5000'
+
+gst_str_rgba = ('appsrc ! autovideoconvert ! '
+                'x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! '
+                'rtph264pay config-interval=1 pt=96 !'
+                'udpsink host=10.1.1.48 port=5000')
+
 # gst_str_rgba = 'appsrc ! autovideoconvert ! autovideosink'
 out = cv2.VideoWriter(gst_str_rgba, cv2.CAP_GSTREAMER, 0, 20.0, (img.shape[1], img.shape[0]))
 

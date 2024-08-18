@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#  gstream_02.py
+#  gstream_02.pym
 #  gstream_02.py = scratch_06.py
 
 # USB cam streamed to inference stub then to display and stream out as RTP

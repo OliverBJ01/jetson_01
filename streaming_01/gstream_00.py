@@ -32,17 +32,27 @@ pipeline = Gst.parse_launch(
     "rtph264depay ! h264parse !   nvv4l2decoder ! nvvidconv !"
     "videoscale ! video/x-raw(memory:NVMM),width=640,height=480 ! "
     "nv3dsink sync=false")
+
     # "autovideosink sync=false")
     # "nvdrmvideosink sync=false")
     # "nveglgless?ink sync=false")
 
+
+# receive raw video from USB cam and stream as MPEG   VLC with URL:  udp://@:5000
+#   works but with a delay of 2 secs   use VLC with udp://@:5000
+#   works on host machine at 127.0.0.1
+# pipeline = Gst.parse_launch(
+#     "v4l2src device=/dev/video0 ! video/x-raw, width=640, height=480, format=YUY2, framerate=30/1 ! "
+#     "queue ! videoconvert ! avenc_mpeg2video ! mpegtsmux ! "
+#     # "udpsink host=10.1.1.48 port=5000"  )
+#     "udpsink host=127.0.0.1 port=5000"  )
+
 # receive raw video from USB cam and stream as RTP
 # pipeline = Gst.parse_launch(
-#     "v4l2src device=/dev/video0 ! "
-#     "video/x-raw, width=640, height=480, format=(string)YUY2 ! "
-#     "videoconvert ! video/x-raw, format=(string)I420 ! nvvidconv ! video/x-raw(memory:NVMM), format=(string)NV12 ! "
-#     "nvv4l2h264enc ! rtph264pay mtu={mtu} ! udpsink host=10.1.1.48 port=5000".format(
-#         width=320, height=240, framerate=15, mtu=1200    ))
+#     "v4l2src device=/dev/video0 ! video/x-raw, width=640, height=480, format=YUY2, framerate=30/1 ! "
+#     "queue ! nvvideoconvert ! nvv4l2h264enc  ! h264parse ! rtph264pay config-interval=1 ! "
+#     "udpsink host=10.1.1.48 port=5000".format(width=320, height=240, framerate=30/1, mtu=1200 ))
+    # "udpsink host=127.0.0.1 port=5000 sync=false")
 
 # receive raw video from USB cam and display it
 # pipeline = Gst.parse_launch(
