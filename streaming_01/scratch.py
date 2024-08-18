@@ -1,5 +1,5 @@
 
-#Notes:
+#Notes: 
 # My USB Canm is [0] 'YUYV' (YUYV 4:2:2)
 #                 [1] 'MJPG' (Motion-JPEG, compressed)
 

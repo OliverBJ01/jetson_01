@@ -23,7 +23,7 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gst, GLib
 Gst.init("aa")
 
-# cam_uri = 'rtsp://admin:roxywashere@10.1.1.80:554/h264Preview_01_main'
+# cam_uri = 'rtsp://admin:roxywashere@10.1.1.80:554/h264Preview_01_main' 
 
 # receive RSTP stream from IP cam
 pipeline = Gst.parse_launch(
